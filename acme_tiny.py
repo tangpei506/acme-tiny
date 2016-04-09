@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-import argparse, subprocess, json, os, sys, base64, binascii, time, hashlib, re, copy, textwrap, logging
+import argparse, subprocess, json, os, sys, base64, binascii, time, hashlib, re, copy, textwrap, logging, ssl
 try:
     from urllib.request import urlopen # Python 3
 except ImportError:
@@ -166,6 +166,7 @@ def get_crt(account_key, csr, acme_dir, log=LOGGER, CA=DEFAULT_CA):
         "\n".join(textwrap.wrap(base64.b64encode(result).decode('utf8'), 64)))
 
 def main(argv):
+    ssl._create_default_https_context = ssl._create_unverified_context
     parser = argparse.ArgumentParser(
         formatter_class=argparse.RawDescriptionHelpFormatter,
         description=textwrap.dedent("""\
